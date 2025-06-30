@@ -1,7 +1,7 @@
 class Solution {
 public:
     int minAddToMakeValid(string s) {
-        int count=0;
+        int close=0;
         int open=0;
         for (char c: s){
             if (c=='(') {
@@ -9,9 +9,9 @@ public:
             }
             else {
                 if (open>0) open--;
-                else count++;
+                else close++;
             }
         }
-        return (count+open);
+        return (close+open);
     }
 };
