@@ -6,11 +6,14 @@ struct Node{
 class MyLinkedList {
 public:
     Node* head;
+    int size;
     MyLinkedList() {
-        head = nullptr;    
+        head = nullptr; 
+        size=0;   
     }
     
     int get(int index) {
+        if (index>size) return-1;
         if (!head) return -1;
         if (index==0) return head->val;
 
@@ -24,22 +27,29 @@ public:
     void addAtHead(int val) {
         Node* newnode = new Node{val, head};
         head = newnode;
+        size++;
     }
     
     void addAtTail(int val) {
         Node* newnode = new Node{val, nullptr};
         if (!head) {
             head = newnode;
+            size++;
             return;
         }
         Node* temp = head;
         while (temp->next) temp=temp->next;
         temp->next = newnode;
+        size++;
     }
     
     void addAtIndex(int index, int val) {
         if (index==0) {
             addAtHead(val);
+            return;
+        }
+        if (index==size) {
+            addAtTail(val);
             return;
         }
         Node* temp = head;
@@ -49,6 +59,7 @@ public:
         if (!temp) return;
         Node* newnode = new Node{val, temp->next};
         temp->next = newnode;
+        size++;
     }
     
     void deleteAtIndex(int index) {
@@ -58,6 +69,7 @@ public:
             Node* todel = head;
             head = head->next;
             delete todel;
+            size--;
             return;
         }
 
@@ -69,6 +81,7 @@ public:
 
         Node* todel = curr->next;
         curr->next = curr->next->next;
+        size--;
         delete todel;
         return;
 
