@@ -5,16 +5,12 @@ public:
         int n=nums.size();
         int product=1, ans=0;
 
-        while (right<n){
+        for (right=0;right<n;right++){
             product *= nums[right];
 
-            while (product>=k && left <=right){
-                product/=nums[left];
-                left++;
-            }
+            while (product>=k && left<=right) product/=nums[left++];
             ans+= (right-left+1);
 
-            right++;
         }
         return ans; 
     }
