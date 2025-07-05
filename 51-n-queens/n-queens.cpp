@@ -2,27 +2,16 @@ class Solution {
 public:
 
 
-    bool isSafe(int row, int col, int n, vector<string>& curr, unordered_set<int>& vertical, unordered_set<int>& diagonal, unordered_set<int>& anti_diagonal){
+    bool isSafe(int row, int col, int n, vector<string>& curr, vector<bool>& vertical, vector<bool>& diagonal, vector<bool>& anti_diagonal){
         if (row>=n || row<0 || col<0 || col>=n) return false;
         
-        if (vertical.count(col)) return false;
-        if (diagonal.count(row-col)) return false;
-        if (anti_diagonal.count(row+col)) return false;
+        if (vertical[col]) return false;
+        if (diagonal[row-col+(n-1)]) return false;
+        if (anti_diagonal[row+col]) return false;
         return true;
-        // for (int r=row-1;r>=0;r--){
-        //     if (curr[r][col]=='Q') return false;
-        // }
-        
-        // for (int r=row-1, c=col-1;r>=0 && c>=0;r--, c--){
-        //     if (curr[r][c]=='Q') return false;
-        // }
-        // for (int r=row-1, c=col+1;r>=0 && c<n; r--, c++){
-        //     if (curr[r][c]=='Q') return false;
-        // }
-        // return true;
     }
 
-    void solve(int row, int n, vector<string>& curr, vector<vector<string>>& res, unordered_set<int>& vertical, unordered_set<int>& diagonal, unordered_set<int>& anti_diagonal){
+    void solve(int row, int n, vector<string>& curr, vector<vector<string>>& res, vector<bool>& vertical, vector<bool>& diagonal, vector<bool>& anti_diagonal){
         if (row>=n){
             res.push_back(curr);
             return;
@@ -31,23 +20,23 @@ public:
         for (int col=0; col<n;col++){
             if (isSafe(row, col, n, curr, vertical, diagonal, anti_diagonal)){
                 curr[row][col]='Q';
-                vertical.insert(col);
-                diagonal.insert(row-col);
-                anti_diagonal.insert(col+row);
+                vertical[col] = true;
+                diagonal[row-col+(n-1)]=true;
+                anti_diagonal[row+col]=true;
                 solve(row+1, n, curr, res, vertical, diagonal, anti_diagonal);
                 curr[row][col] = '.';
-                vertical.erase(col);
-                diagonal.erase(row-col);
-                anti_diagonal.erase(row+col);
+                vertical[col] = false;
+                diagonal[row-col+(n-1)]=false;
+                anti_diagonal[row+col]=false;
             }
         }
     }
     vector<vector<string>> solveNQueens(int n) {
         vector<vector<string>> res;
         vector<string> curr(n, string(n, '.'));
-        unordered_set<int> vertical;
-        unordered_set<int> diagonal;
-        unordered_set<int> anti_diagonal;
+        vector<bool> vertical(n, false);
+        vector<bool> diagonal(2*n-1, false);
+        vector<bool> anti_diagonal(2*n-1, false);
         solve(0, n, curr, res, vertical, diagonal, anti_diagonal);
         return res;
     }
