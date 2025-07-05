@@ -5,14 +5,14 @@ public:
     bool isSafe(int row, int col, int n, vector<string>& curr){
         if (row>=n || row<0 || col<0 || col>=n) return false;
 
-        for (int r=row;r>=0;r--){
+        for (int r=row-1;r>=0;r--){
             if (curr[r][col]=='Q') return false;
         }
 
-        for (int r=row, c=col;r>=0 && c>=0;r--, c--){
+        for (int r=row-1, c=col-1;r>=0 && c>=0;r--, c--){
             if (curr[r][c]=='Q') return false;
         }
-        for (int r=row, c=col;r>=0 && c<n; r--, c++){
+        for (int r=row-1, c=col+1;r>=0 && c<n; r--, c++){
             if (curr[r][c]=='Q') return false;
         }
         return true;
