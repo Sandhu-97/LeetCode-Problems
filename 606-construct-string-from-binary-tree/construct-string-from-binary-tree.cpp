@@ -11,22 +11,27 @@
  */
 class Solution {
 public:
+
+    void solve(TreeNode* root, string& res){
+        if (root==nullptr) return;
+
+        res+=to_string(root->val);
+
+        if (root->left || root->right){
+            res+="(";
+            solve(root->left, res);
+            res+=")";
+        }
+        if (root->right){
+            res+="(";
+            solve(root->right ,res);
+            res+=")";
+        }
+        
+    }
     string tree2str(TreeNode* root) {
-        if (!root) return "";
-
-        string res = to_string(root->val);
-        string left = tree2str(root->left);
-        string right = tree2str(root->right);
-        
-
-        if(root->left==nullptr && root->right==nullptr) return res;
-        
-        if (root->right==nullptr){
-            return res +"(" + left + ")";
-        }
-        if (root->left==nullptr){
-            return res + "()" + "(" + right+ ")";
-        }
-        return res+"("+left+")"+"("+right+")";
+        string ans;
+        solve(root, ans);
+        return ans;
     }
 };
