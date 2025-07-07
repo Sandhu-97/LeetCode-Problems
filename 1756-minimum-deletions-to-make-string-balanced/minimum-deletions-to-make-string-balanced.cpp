@@ -5,7 +5,7 @@ public:
         int count=0;
         for (char i:s){
             if (i=='b') st.push(i);
-            else if (!st.empty() && i=='a' && st.top()=='b') {
+            else if (!st.empty() && i=='a') {
                 st.pop();
                 count++;
             }
