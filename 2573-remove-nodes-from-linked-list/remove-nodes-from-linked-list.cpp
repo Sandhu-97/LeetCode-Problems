@@ -11,34 +11,26 @@
 class Solution {
 public:
 
-    ListNode* reverse(ListNode* head){
-        if (!head || !head->next) return head;
-        ListNode* newHead = reverse(head->next);
-        head->next->next= head;
-        head->next = nullptr;
-        return newHead;
-    }
     ListNode* removeNodes(ListNode* head) {
-        stack<int> st;
+        stack<ListNode*> st;
         ListNode* temp = head->next;
-        st.push(head->val);
+        st.push(head);
         while (temp){
 
-            while (!st.empty() && temp->val>st.top()){
+            while (!st.empty() && temp->val>(st.top())->val){
                 st.pop();
             }
-            st.push(temp->val);
+            st.push(temp);
             temp=temp->next;
         }
-        ListNode* dummy = new ListNode(-1);
-        ListNode* tail = dummy;
+        ListNode* nxt = nullptr;
 
         while (!st.empty()){
-            ListNode* newnode = new ListNode(st.top());
+            ListNode* newnode = st.top();
             st.pop();
-            tail->next = newnode;
-            tail=newnode;
+            newnode->next = nxt;
+            nxt=newnode;
         }
-        return reverse(dummy->next);
+        return nxt;
     }
 };
