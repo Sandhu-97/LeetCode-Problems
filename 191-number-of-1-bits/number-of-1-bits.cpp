@@ -1,12 +1,11 @@
 class Solution {
 public:
     int hammingWeight(int n) {
-        // Brian Kernigham Algo        
         int count=0;
-
         while (n>0){
-            n = n&(n-1);
-            count++;
+            int rem = n%2;
+            if (rem) count++;
+            n/=2;
         }
         return count;
     }
