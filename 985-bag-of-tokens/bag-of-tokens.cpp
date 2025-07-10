@@ -11,6 +11,7 @@ public:
                 score++;
                 power-=tokens[i];
                 i++;
+                res = max(score, res);
             }
             else if (score>0 && power<tokens[i]){
                 power+=tokens[j];
@@ -18,7 +19,7 @@ public:
                 score--;
             }
             else break;
-            res = max(score, res);
+
         }
         return res;
     }
