@@ -3,7 +3,6 @@ public:
     int numRescueBoats(vector<int>& people, int limit) {
         sort(people.begin(), people.end());
 
-        int sum=0;
         int count=0;
         int i=0;
         int j=people.size()-1;
