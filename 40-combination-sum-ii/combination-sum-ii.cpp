@@ -1,12 +1,10 @@
 class Solution {
 public:
-    set<vector<int>> st;
+
     void solve(int i, int target ,vector<int>& temp, vector<vector<int>>& res, const vector<int>& candidates){
         if (target==0) {
-            if (st.count(temp)==0){
-                res.push_back(temp);
-                st.insert(temp);
-            } 
+            
+            res.push_back(temp);
             return;
         }
 
