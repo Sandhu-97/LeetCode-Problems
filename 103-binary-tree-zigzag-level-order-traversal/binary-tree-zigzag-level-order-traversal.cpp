@@ -32,8 +32,8 @@ public:
              
             }
             if (flag) reverse(temp.begin(), temp.end());
-            ans.push_back(temp);
             flag=!flag;
+            ans.push_back(temp);
         }
         return ans;
     }
