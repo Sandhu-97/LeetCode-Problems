@@ -25,13 +25,14 @@ public:
             for (int i=0;i<size;i++){
                 TreeNode* front = q.front();
                 q.pop();
-                temp.push_back(front->val);
+                if (flag) temp.insert(temp.begin(), front->val);
+                if (!flag) temp.push_back(front->val);
 
                 if (front->left) q.push(front->left);
                 if (front->right) q.push(front->right);
              
             }
-            if (flag) reverse(temp.begin(), temp.end());
+            // if (flag) reverse(temp.begin(), temp.end());
             flag=!flag;
             ans.push_back(temp);
         }
