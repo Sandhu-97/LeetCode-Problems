@@ -16,13 +16,12 @@ public:
         if (!root) return;
 
         path+=to_string(root->val);
-        path.push_back('-');
-        path.push_back('>');
+
         if (!root->left && !root->right){
-            path.pop_back();
-            path.pop_back();
             res.push_back(path);
         }
+
+        path+="->";
         solve(root->left, path, res);
         solve(root->right, path, res);
 
