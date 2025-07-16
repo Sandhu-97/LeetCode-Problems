@@ -15,6 +15,7 @@ public:
         if (!root) return;
         if (!root->left && !root->right){
             ans = min(ans, level);
+            return;
         }
 
         solve(root->left, level+1, ans);
