@@ -12,7 +12,7 @@ public:
         while (k--){
             int top = pq.top();
             pq.pop();
-            pq.push(floor(sqrt(top)));
+            pq.push((int)sqrt(top));
         }
 
         while (!pq.empty()){
