@@ -4,8 +4,7 @@ public:
     int rows, cols;
 
     bool isSafe(int row, int col, vector<vector<int>>& grid){
-        if (row<0 || col<0 || row>=rows || col>=cols || grid[row][col]!=1) return false;
-        return true;
+        return row>=0 && col>=0 && row<rows && col<cols && grid[row][col]==1;
     }
     int orangesRotting(vector<vector<int>>& grid) {
         rows = grid.size();
@@ -23,6 +22,9 @@ public:
 
         int minutes = 0;
 
+
+        int dx[] = {1, -1, 0, 0};
+        int dy[] = {0, 0, 1, -1};
         while (!q.empty()){
             int size = q.size();
             for (int i=0;i<size;i++){
@@ -32,26 +34,15 @@ public:
 
                 q.pop();
 
+                for (int i=0;i<4;i++){
+                    int new_row = row+dx[i];
+                    int new_col = col+dy[i];
 
-                if (isSafe(row+1, col, grid)) {
-                    grid[row+1][col] = 2;
-                    q.push({row+1, col});
-                    fresh--;
-                }
-                if (isSafe(row-1, col, grid)) {
-                    grid[row-1][col] = 2;
-                    q.push({row-1, col});
-                    fresh--;
-                }
-                if (isSafe(row, col+1, grid)) {
-                    grid[row][col+1] = 2;
-                    q.push({row, col+1});
-                    fresh--;
-                }
-                if (isSafe(row, col-1, grid)) {
-                    grid[row][col-1] = 2;
-                    q.push({row, col-1});
-                    fresh--;
+                    if (isSafe(new_row, new_col, grid)){
+                        q.push({new_row, new_col});
+                        grid[new_row][new_col] = 2;
+                        fresh--;
+                    }
                 }
             }
 
