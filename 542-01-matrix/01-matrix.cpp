@@ -2,14 +2,11 @@ class Solution {
 public:
 
 
-    int rows, cols;
 
-    bool isSafe(int row, int col, vector<vector<int>>& mat){
-        return row>=0 && col>=0 && row<rows && col < cols && mat[row][col]!=0;
-    }
+
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
-        rows = mat.size();
-        cols = mat[0].size();
+        int rows = mat.size();
+        int cols = mat[0].size();
         vector<vector<bool>> visited(rows, vector<bool>(cols, false)); 
         queue<pair<int, int>> q;
 
@@ -19,6 +16,7 @@ public:
                     visited[i][j]=true;
                     q.push({i,j});
                 }
+                else mat[i][j] = -1;
             }
         }
 
@@ -38,7 +36,7 @@ public:
                     int newrow = row+dx[i];
                     int newcol = col+dy[i];
 
-                    if (isSafe(newrow, newcol, mat) && !visited[newrow][newcol]){
+                    if (newrow >= 0 && newrow < rows && newcol >= 0 && newcol < cols && mat[newrow][newcol]==-1){
                         q.push({newrow, newcol});
                         visited[newrow][newcol] = true;
                         mat[newrow][newcol] = mat[row][col] + 1;
