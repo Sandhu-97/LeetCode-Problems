@@ -7,13 +7,11 @@ public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
         int rows = mat.size();
         int cols = mat[0].size();
-        vector<vector<bool>> visited(rows, vector<bool>(cols, false)); 
         queue<pair<int, int>> q;
 
         for (int i=0;i<rows;i++){
             for (int j=0;j<cols;j++){
                 if (mat[i][j]==0){
-                    visited[i][j]=true;
                     q.push({i,j});
                 }
                 else mat[i][j] = -1;
@@ -38,7 +36,6 @@ public:
 
                     if (newrow >= 0 && newrow < rows && newcol >= 0 && newcol < cols && mat[newrow][newcol]==-1){
                         q.push({newrow, newcol});
-                        visited[newrow][newcol] = true;
                         mat[newrow][newcol] = mat[row][col] + 1;
                     }
                 }
