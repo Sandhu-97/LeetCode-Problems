@@ -1,7 +1,7 @@
 class Solution {
 public:
 
-    bool isCycleDFS(int u, vector<vector<int>>& adj, vector<bool>& visited, vector<bool> stack){
+    bool isCycleDFS(int u, vector<vector<int>>& adj, vector<bool>& visited, vector<bool>& stack){
         visited[u] = true;
         stack[u] = true;
 
@@ -28,10 +28,6 @@ public:
             }
         }
         return true;
-
-
-
-        
         
     }
 };
