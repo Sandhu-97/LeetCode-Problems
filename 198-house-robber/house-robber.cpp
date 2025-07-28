@@ -5,15 +5,12 @@ public:
         if (i>=nums.size()){
             return 0;
         }
-
-
         if (dp[i]!=-1) return dp[i];
 
+        int steal = nums[i] + solve(i+2, nums, dp);
+        int leave = solve(i+1, nums, dp);
 
-        dp[i] = nums[i] + solve(i+2, nums, dp);
-        dp[i+1] = solve(i+1, nums, dp);
-
-        return max(dp[i], dp[i+1]);
+        return dp[i]= max(steal, leave);
     }
     int rob(vector<int>& nums) {
         vector<int> dp(nums.size()+1, -1);
