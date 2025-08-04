@@ -16,6 +16,6 @@ public:
             prev = profit;
         }
 
-        return prev;
+        return profit;
     }
 };
