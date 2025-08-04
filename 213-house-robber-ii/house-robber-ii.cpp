@@ -20,7 +20,6 @@ public:
 
         if (n==0) return 0;
         if (n==1) return nums[0];
-        if (n==2) return max(nums[0], nums[1]);
 
         int ans1 = solve(0, n-2, nums);
         int ans2 = solve(1, n-1, nums);
