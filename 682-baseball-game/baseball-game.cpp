@@ -2,26 +2,32 @@ class Solution {
 public:
     int calPoints(vector<string>& operations) {
         stack<int> st;
-        for (string opr: operations){
-            if (opr=="+"){
-                int num1 = st.top(); st.pop();
-                int num2 = st.top();
-                int result = num1+num2;
-                st.push(num1);
-                st.push(result);
+        int ans=0;
+
+        for (string s: operations){
+
+
+            if (s=="+"){
+                int score1 = st.top(); st.pop();
+                int score2 = st.top();
+
+                st.push(score1);
+                st.push(score1+score2);
             }
-            else if (opr=="D"){
+
+            else if (s=="D"){
                 st.push(st.top()*2);
             }
-            else if (opr=="C") st.pop();
-            else st.push(stoi(opr));
+
+            else if (s=="C") st.pop();
+            else st.push(stoi(s));
         }
 
-        int res = 0;
         while (!st.empty()){
-            res+=st.top();
+            ans += st.top();
             st.pop();
         }
-        return res;
+
+        return ans;
     }
 };
