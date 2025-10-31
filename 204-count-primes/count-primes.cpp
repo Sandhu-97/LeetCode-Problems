@@ -1,5 +1,7 @@
 class Solution {
 public:
+
+    //  SIEVE OF ATKINS
     int countPrimes(int n) {
         if (n<=2) return 0;
         vector<bool> prime(n+1, false);
