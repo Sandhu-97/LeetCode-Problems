@@ -2,42 +2,36 @@ class Solution {
 public:
 
 
-    bool isSafe(int row, int col, int n, vector<string>& curr, vector<bool>& vertical, vector<bool>& diagonal, vector<bool>& anti_diagonal){
-        if (row>=n || row<0 || col<0 || col>=n) return false;
-        
-        if (vertical[col]) return false;
-        if (diagonal[row-col+(n-1)]) return false;
-        if (anti_diagonal[row+col]) return false;
-        return true;
-    }
-
-    void solve(int row, int n, vector<string>& curr, vector<vector<string>>& res, vector<bool>& vertical, vector<bool>& diagonal, vector<bool>& anti_diagonal){
-        if (row>=n){
-            res.push_back(curr);
-            return;
+    bool isSafe(int row, int col, int n, vector<string>& curr){
+        if(row>= n || row<0 || col < 0 || col>=n) return false;
+        for (int i=row-1;i>=0;i--){
+            if (curr[i][col] == 'Q') return false;
         }
 
-        for (int col=0; col<n;col++){
-            if (isSafe(row, col, n, curr, vertical, diagonal, anti_diagonal)){
-                curr[row][col]='Q';
-                vertical[col] = true;
-                diagonal[row-col+(n-1)]=true;
-                anti_diagonal[row+col]=true;
-                solve(row+1, n, curr, res, vertical, diagonal, anti_diagonal);
-                curr[row][col] = '.';
-                vertical[col] = false;
-                diagonal[row-col+(n-1)]=false;
-                anti_diagonal[row+col]=false;
+        for (int i=row-1, j=col-1; i>=0 && j>=0; i--, j--){
+            if (curr[i][j]=='Q') return false;
+        } 
+        for (int i=row-1, j=col+1;i>=0 && j<n; i--, j++) if (curr[i][j]=='Q') return false;
+
+        return true;
+    }
+    void solve(int i, int n, vector<string>& curr, vector<vector<string>>& ans){
+        if (i>=n){
+            ans.push_back(curr);
+            return;
+        }
+        for (int j=0;j<n;j++){
+            if (isSafe(i, j, n, curr)){
+                curr[i][j] = 'Q';
+                solve(i+1, n, curr, ans);
+                curr[i][j] = '.';
             }
         }
     }
     vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string>> res;
+        vector<vector<string>> ans;
         vector<string> curr(n, string(n, '.'));
-        vector<bool> vertical(n, false);
-        vector<bool> diagonal(2*n-1, false);
-        vector<bool> anti_diagonal(2*n-1, false);
-        solve(0, n, curr, res, vertical, diagonal, anti_diagonal);
-        return res;
+        solve(0, n, curr, ans);
+        return ans;
     }
 };
