@@ -1,21 +1,19 @@
 class Solution {
 public:
-    // CONSTANT SPACE
+
+    int solve(int i, int n, vector<int>& dp, vector<int>& nums){
+        if (i>=n) return 0;
+        if (dp[i] != -1) return dp[i];
+
+        int steal = nums[i] + solve(i+2, n, dp, nums);
+        int leave = solve(i+1, n, dp, nums);
+        return dp[i] = max(steal, leave);
+    }
+
     int rob(vector<int>& nums) {
         int n = nums.size();
-
-        if (n==0) return 0;
-        if (n==1) return nums[0];
-
-        int prevprev = 0;
-        int prev = nums[0];
-        int profit = INT_MIN;
-        for (int i=1;i<n;i++){
-            profit = max(nums[i] + prevprev, prev); 
-            prevprev = prev;
-            prev = profit;
-        }
-
-        return profit;
+        vector<int> dp(n+1, -1);
+        return solve(0, n, dp, nums);
+        
     }
 };
