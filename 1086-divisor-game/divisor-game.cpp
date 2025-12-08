@@ -7,7 +7,7 @@ public:
         for (int i=1;i<n;i++){
             if (n%i==0){
                 if (solve(n-i, dp)==0){
-                    dp[i] = 1;
+                    dp[n] = 1;
                     return 1;
                 }
             }
