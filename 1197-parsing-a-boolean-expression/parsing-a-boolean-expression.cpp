@@ -1,42 +1,31 @@
 class Solution {
 public:
-
-    bool parse(int& i, string exp){
-        if (exp[i]=='t') {
-            i++;
-            return true;
-        }
-        if (exp[i]=='f'){
-            i++;
-            return false;
-        }
-
-        char op = exp[i];
-        i+=2;
-        
-        if (op=='!'){
-            bool curr = parse(i, exp);
-            i++;
-            return !curr;
-        }
-
-        bool res = (op=='&')? true : false;
-
-        while (true){
-            bool curr = parse(i, exp);
-            if (op=='&') res&=curr;
-            else res|=curr;
-
-            if (exp[i]==')'){
-                i++;
-                break;
-            }
-            i++;
-        }
-        return res;
-    }
     bool parseBoolExpr(string expression) {
-        int i = 0;
-        return parse(i, expression);
+        stack<char> st;
+        for (char c: expression){
+            if (c==',') continue;
+            if (c!=')') st.push(c);
+            else{
+                bool t = false;
+                bool f = false;
+                while (st.top()!='('){
+                    if (st.top()=='t') t=true;
+                    if (st.top()=='f') f=true;
+                    st.pop();
+                }
+                st.pop();
+                char op = st.top();
+                st.pop();
+
+                char res;
+                if (op=='!') res=t?'f':'t';
+                else if (op=='&') res=f?'f':'t';
+                else res=t?'t':'f';
+
+                st.push(res);
+            }
+        }
+        return st.top()=='t';
+
     }
 };
