@@ -1,18 +1,19 @@
 class Solution {
 public:
+    vector<int> dx = {1, -1, 0, 0};
+    vector<int> dy = {0, 0, 1, -1};
     void solve(int i, int j, int m, int n, int& count, int remain, vector<vector<int>>& grid){
         if (i>=m || i<0 || j>=n || j<0 || grid[i][j]==-1) return;
         if (grid[i][j]==2){
-            if (remain==1)count++;
+            if (remain==1) count++;
             return;
         }
 
         int temp = grid[i][j];
         grid[i][j] = -1;
-        solve(i+1, j, m, n, count,remain-1, grid);
-        solve(i-1, j, m, n, count,remain-1, grid);
-        solve(i, j+1, m, n, count,remain-1, grid);
-        solve(i, j-1, m, n, count,remain-1, grid);
+        for (int k=0;k<4;k++){
+            solve(i+ dx[k], j+ dy[k], m, n, count, remain-1, grid);
+        }
         grid[i][j]=temp;
 
 
@@ -27,10 +28,6 @@ public:
                 if (grid[i][j]==1) {
                     startx = i;
                     starty = j;
-                }
-                else if (grid[i][j]==2){
-                    endx = i;
-                    endy = j;
                 }
                 if (grid[i][j]!=-1) remain++;
             }
