@@ -26,7 +26,7 @@ public:
 
         for (int i=0;i<m;i++){
             for (int j=0;j<n;j++){
-                if (solve(i,j,0,m,n,board,word)) return true;
+                if (board[i][j] == word[0] && solve(i,j,0,m,n,board,word)) return true;
             }
         }
         return false;
