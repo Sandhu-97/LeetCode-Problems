@@ -11,11 +11,6 @@
  */
 class Solution {
 public:
-    // vector<TreeNode*> solve(int n){
-    //     if (n%2==0) return;
-    //     if (n==1) return 
-
-    // }
     unordered_map<int, vector<TreeNode*>> mp;
     vector<TreeNode*> allPossibleFBT(int n) {
         if (n%2==0) return {};
