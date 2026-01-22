@@ -1,7 +1,7 @@
 class Solution {
 public:
-    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        vector<vector<int>> grid = obstacleGrid;
+    int uniquePathsWithObstacles(vector<vector<int>>& grid) {
+
         int m = grid.size();
         int n = grid[0].size();
         vector<vector<uint>> dp(m+1, vector<uint>(n+1, 0));
