@@ -1,17 +1,13 @@
 class Solution {
 public:
-
-    // SPACE OPTIMIZED
+    vector<int> dp;
+    int solve(int n){
+        if (n==0 || n==1) return 1;
+        if (dp[n]!=-1) return dp[n];
+        return dp[n] = solve(n-1) + solve(n-2);
+    }  
     int climbStairs(int n) {
-        if (n<=3) return n;
-        int first = 2;
-        int second = 3;
-        for (int i=4;i<=n;i++){
-            int temp = first+second;
-            first = second;
-            second = temp;
-        }
-
-        return second;
+        dp.assign(n+1, -1);
+        return solve(n);
     }
 };
