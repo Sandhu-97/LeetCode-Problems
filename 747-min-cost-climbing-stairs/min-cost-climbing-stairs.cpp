@@ -11,7 +11,6 @@ public:
         n = cost.size();
         dp.assign(n+1, -1);
         int solve1 = solve(0, cost);
-        dp.assign(n+1, -1);
         int solve2 = solve(1, cost);
         return min(solve1, solve2);
 
