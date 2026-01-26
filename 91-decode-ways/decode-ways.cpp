@@ -1,18 +1,23 @@
 class Solution {
 public:
-    int solve(int i, string s, vector<int>& dp){
-        if (i>=s.size()) return 1;
+    int n;
+    vector<int> dp;
+    int solve(int i, string s){
+        if (i>=n) return 1;
         if (s[i]=='0') return 0;
         if (dp[i]!=-1) return dp[i];
-        int ways = solve(i+1, s, dp);
-        if (i+1<s.size()){
-            if (s[i]=='1' || (s[i]=='2' && s[i+1]<='6')) ways += solve(i+2, s, dp);
+        int ways = solve(i+1, s);
+        if(i+1<n){
+            if (s[i]=='1' || (s[i]=='2' && s[i+1]<='6')){
+                ways+=solve(i+2, s);
+            }
         }
+        return dp[i]=ways;
 
-        return dp[i] = ways;
     }
     int numDecodings(string s) {
-        vector<int> dp (s.size(), -1);
-        return solve(0, s, dp);
+        n=s.size();
+        dp.assign(n+1, -1);
+        return solve(0, s);
     }
 };
