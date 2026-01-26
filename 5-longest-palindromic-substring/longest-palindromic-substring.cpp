@@ -9,22 +9,21 @@ public:
         return true;
     }
     string longestPalindrome(string s) {
-        int maxi=0;
-        string ans="";
-
-        for (int i=0;i<s.size();i++){
-            for (int j=i;j<s.size();j++){
-                int l=i, r=j;
-                while (l<r && s[l]==s[r]){
-                    l++; r--;
-                }
-                if (l>=r && j-i+1>maxi){
-                    ans = s.substr(i, j-i+1);
-                    maxi = j-i+1;
+        int len=0, idx=0;
+        int n = s.size();
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+        for (int i=n-1;i>=0;i--){
+            for (int j=i;j<n;j++){
+                if(s[i]==s[j] && (j-i<=2 || dp[i+1][j-1])){
+                    dp[i][j]= true;
+                    if (j-i+1>len){
+                        len = j-i+1;
+                        idx = i;
+                    }
                 }
             }
         }
-        return ans;
+        return s.substr(idx, len);
 
     }
 };
