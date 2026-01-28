@@ -1,13 +1,16 @@
+typedef long long ll;
 class Solution {
 public:
     int arrangeCoins(int n) {
-        int count=0;
-        int i=1;
-        while (n>=0){
-            n-=i;
-            count++;
-            i++;
+        ll l = 0;
+        ll r = n;
+
+        while (l<=r){
+            ll mid = l+ (r-l)/2;
+            ll coins = mid*(mid+1)/2;
+            if (coins<=n) l=mid+1;
+            else r=mid-1;
         }
-        return count-1;
+        return r;
     }
 };
