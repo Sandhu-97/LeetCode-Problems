@@ -1,10 +1,10 @@
 class Solution {
 public:
-    int calcDays(vector<int>& weights, int days){
+    int calcDays(vector<int>& weights, int capacity){
         int count=1;
         int cur=0;
         for (int w: weights){
-            if( cur+w>days){
+            if( cur+w>capacity){
                 count++;
                 cur=0;
             }
@@ -15,13 +15,16 @@ public:
     int shipWithinDays(vector<int>& weights, int days) {
         int low = *max_element(weights.begin(), weights.end());
         int high = accumulate(weights.begin(), weights.end(), 0);
-
-        while (low<high){
+        int ans =0;
+        while (low<=high){
             int mid = low+(high-low)/2;
             int calcdays = calcDays(weights, mid);
-            if (calcdays>days) low=mid+1;
-            else high=mid;
+            if (calcdays<=days) {
+                high=mid-1;
+                ans=mid;
+            }
+            else low=mid+1;
         }
-        return low;
+        return ans;
     }
 };
