@@ -1,18 +1,27 @@
 class Solution {
 public:
-    vector<vector<int>> dp;
-    bool solve(int i, int target, vector<int>& nums){
-        if (i>=nums.size()) return false;
-        if (target==0) return true;
-        if (target<0) return false;
-        if (dp[i][target]!=-1) return dp[i][target];
-        return dp[i][target]=solve(i+1, target, nums) || solve(i+1, target-nums[i], nums);
-    }
+
     bool canPartition(vector<int>& nums) {
         int target=accumulate(nums.begin(), nums.end(), 0);
         if (target%2!=0) return false;
         target/=2;
-        dp.assign(nums.size(), vector<int>(target+1, -1));
-        return solve(0, target, nums);
+        int n=nums.size();
+        vector<vector<bool>> dp(n+1, vector<bool>(target+1, false));
+
+        for (int i=0;i<=n;i++){
+            dp[i][0] = true;
+        }
+
+        for (int i=1;i<=n;i++){
+            for (int j=1;j<=target;j++){
+                if (nums[i-1] <= j){
+                    dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i-1]];
+                }
+                else dp[i][j]=dp[i-1][j];
+            }
+        }
+
+        return dp[n][target];
+        
     }
 };
