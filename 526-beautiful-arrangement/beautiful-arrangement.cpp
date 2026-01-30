@@ -1,40 +1,29 @@
 class Solution {
 public:
-    int count;
+    int count, N;
     vector<int> temp;
-    vector<int> nums;
-    // bool valid (vector<int>& perm){
-    //     int i = 1;
-    //     for (int p: perm){
-    //         if (p%i!=0 && i%p!=0) return false;
-    //         i++;
-    //     }
-    //     return true;
-    // }
-    
+    vector<bool> used;
+
     void solve(){
-        if (nums.size()==0){
-            // if (valid(temp)){
-            //     count++;
-            // }
+        int curr = temp.size()+1;
+        if (curr>N){
             count++;
             return;
         }
-
-        for (int i=0;i<nums.size();i++){
-            int curr=nums[i];
-            if (curr % (temp.size()+1) !=0 && (temp.size()+1) %curr !=0) continue;
-            nums.erase(nums.begin()+i);
-            temp.push_back(curr);
+        for (int i=1;i<=N;i++){
+            if (used[i]) continue;
+            if (curr%i!=0 && i%curr) continue;
+            used[i] = true;
+            temp.push_back(i);
             solve();
             temp.pop_back();
-            nums.insert(nums.begin()+i, curr);
+            used[i] = false;
         }
     }
     int countArrangement(int n) {
         count=0;
-        for (int i=1;i<=n;i++) nums.push_back(i);
-
+        N=n;    
+        used.assign(n+1, false);    
         solve();
         return count;
     }
