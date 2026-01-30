@@ -11,6 +11,8 @@ public:
             sides[j]+=sticks[i];
             if (solve(i+1, sticks)) return true;
             sides[j]-=sticks[i]; 
+
+            if (sides[j] == 0) break;
         }
         return false;
     }
