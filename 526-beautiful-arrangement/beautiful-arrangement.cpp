@@ -14,9 +14,7 @@ public:
             if (used[i]) continue;
             if (curr%i!=0 && i%curr) continue;
             used[i] = true;
-            temp.push_back(i);
             solve(curr+1);
-            temp.pop_back();
             used[i] = false;
         }
     }
