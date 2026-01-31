@@ -1,22 +1,19 @@
 class Solution {
 public:
-    vector<int> dp;
-    bool solve(int i, string s, vector<string>& dict){
-        if (i>=s.size()) return true;
-        if (dp[i]!=-1) return dp[i];
-        for (string word: dict){
-            if (i+word.size()<=s.size() && s.substr(i, word.size()) == word){
-                if (solve(i+word.size(), s, dict)){
-                    dp[i] = 1;
-                    return true;
-                }
-            }
-        }
-        dp[i] = 0;
-        return false;
-    }
     bool wordBreak(string s, vector<string>& wordDict) {
-        dp.assign(s.size()+1, -1);
-        return solve(0, s, wordDict);
+        int n = s.size();
+        vector<int> dp(n+1, false);
+        dp[n] = true;
+
+        for (int i=n-1;i>=0;i--){
+            for (string word: wordDict){
+                if (i+word.size()<=n && s.substr(i, word.size()) == word){
+                    dp[i] = dp[i+word.size()];
+                }
+                if (dp[i]) break;
+            }
+        } 
+
+        return dp[0];
     }
 };
