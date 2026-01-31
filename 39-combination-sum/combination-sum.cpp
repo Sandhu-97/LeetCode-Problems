@@ -8,15 +8,16 @@ public:
             ans.push_back(temp);
             return;
         }
-        if (i>=nums.size()) return;
-        if (target<0) return;
+        for (int idx=i;idx<nums.size();idx++){
+            if (nums[idx]>target) break;
 
-        temp.push_back(nums[i]);
-        solve(i, nums, target-nums[i]);
-        temp.pop_back();
-        solve(i+1, nums, target);
+            temp.push_back(nums[idx]);
+            solve(idx, nums, target-nums[idx]);
+            temp.pop_back();
+        }
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
         solve(0, candidates, target);
         return ans;
     }
