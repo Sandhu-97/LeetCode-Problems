@@ -8,6 +8,7 @@ public:
         }
 
         for (int i=0;i<nums.size();i++){
+            if (i>1 && nums[i]==nums[i-1]) continue;
             int curr = nums[i];
             nums.erase(nums.begin()+i);
             temp.push_back(curr);
@@ -17,6 +18,7 @@ public:
         }
     }
     vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
         solve(nums);
         return vector<vector<int>>(ans.begin(), ans.end());
     }
