@@ -6,15 +6,14 @@ public:
         if (i>=n-1) return true;
         int jumps = nums[i];
         if (dp[i]!=-1) return dp[i];
-        bool ans = false;
         for (int j=1;j<=jumps;j++){
-            ans = ans || solve(i+j, nums);
+            if (solve(i+j, nums)) return dp[i] = true;
         }
-        return dp[i] = ans;
+        return dp[i] = false;
     }
     bool canJump(vector<int>& nums) {
         n=nums.size();
-        dp.assign(n+1, -1);
+        dp.assign(n, -1);
         return solve(0, nums);
     }
 };
