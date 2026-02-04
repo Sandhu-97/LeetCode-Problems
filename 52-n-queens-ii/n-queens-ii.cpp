@@ -4,16 +4,10 @@ public:
     int n;
     vector<string> curr;
     int count;
-    set<int> cols;
-    set<int> diagonals;
-    set<int> antidiagonals;
-    // bool valid (int row, int col){
-    //     if (row<0 || row>=n || col<0 || col>=n ) return false;
-    //     for (int i=row-1 ; i>=0 ; i--) if (curr[i][col]=='Q') return false;
-    //     for (int i=row-1, j=col-1 ; i>=0 && j>=0 ; i--, j--) if (curr[i][j]=='Q') return false;
-    //     for (int i=row-1, j=col+1 ; i>=0 && j<n ; i--, j++) if (curr[i][j]=='Q') return false;
-    //     return true;
-    // }
+    unordered_set<int> cols;
+    unordered_set<int> diagonals;
+    unordered_set<int> antidiagonals;
+
     bool valid (int row, int col){
         if (row<0 || row>=n || col<0 || col>=n ) return false;
         if (cols.find(col)!=cols.end()) return false;
