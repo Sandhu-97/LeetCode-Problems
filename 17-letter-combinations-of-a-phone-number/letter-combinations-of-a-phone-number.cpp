@@ -1,24 +1,26 @@
 class Solution {
 public:
+    unordered_map<char, string> mp;
+    int n;
+    string temp;
+    vector<string> ans;
 
-    void solve(int i, unordered_map<char, string>& mp, string& curr, vector<string>& res, string& digits){
-        if (i>= digits.size()) {
-            res.push_back(curr);
+    void solve(int i, string digits){
+        if (i>=n){
+            ans.push_back(temp);
             return;
         }
 
-        char current = digits[i];
-        string options = mp[current];
-
-        for (char c: options){
-            curr.push_back(c);
-            solve(i+1, mp, curr, res, digits);
-            curr.pop_back();
+        string curr = mp[digits[i]];
+        for (char c: curr){
+            temp.push_back(c);
+            solve(i+1, digits);
+            temp.pop_back();
         }
+
+        
     }
     vector<string> letterCombinations(string digits) {
-        if (digits.size()==0) return {};
-        unordered_map<char, string> mp;
         mp['2'] = "abc";
         mp['3'] = "def";
         mp['4'] = "ghi";
@@ -27,11 +29,9 @@ public:
         mp['7'] = "pqrs";
         mp['8'] = "tuv";
         mp['9'] = "wxyz";
-        
 
-        vector<string> res;
-        string curr;
-        solve(0, mp, curr, res, digits);
-        return res;
+        n=digits.size();
+        solve(0, digits);
+        return ans;
     }
 };
