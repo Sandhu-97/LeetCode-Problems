@@ -1,30 +1,21 @@
 class Solution {
 public:
-    int m,n;
-    vector<vector<int>> dp;
-    int solve(int i, int j, vector<vector<char>>& matrix){
-        if (i>=m || j>=n || matrix[i][j]=='0') return 0;
-        if (dp[i][j]!=-1) return dp[i][j];
-
-        int right = solve(i, j+1, matrix);
-        int down = solve(i+1, j, matrix);
-        int diag = solve(i+1, j+1, matrix);
-
-        return dp[i][j] = 1 + min( {right, down, diag} );
-    }
-
     int maximalSquare(vector<vector<char>>& matrix) {
-        m=matrix.size();
-        n=matrix[0].size();
-        dp.assign(m, vector<int>(n, -1));
-        int ans = 0;
+        int m = matrix.size();
+        int n = matrix[0].size();
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+        int side=0;
         for (int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                ans = max(ans, solve(i, j, matrix));   
+            for (int j=0;j<n;j++){
+                if (matrix[i][j]=='1'){
+                    if (i==0 || j==0) dp[i][j] = 1;
+                    else{
+                        dp[i][j] = 1 + min({dp[i-1][j-1], dp[i-1][j], dp[i][j-1]});
+                    }
+                    side = max(side, dp[i][j]);
+                }
             }
         }
-        return ans*ans;
-
-
+        return side*side;
     }
 };
