@@ -50,28 +50,18 @@ public:
         for (string s: dictionary){
             trie.add(s);
         }
-        sen.push_back(' ');
-        int n = sen.size();
-        int left=0, right=0;
+        string word;
         string res;
-        while (right<n){
-            right++;
-            if (sen[right]==' ') {
-            
-                string curr = sen.substr(left, right-left);
-                right++;
-                left = right;
 
-                string ans = "";
-                bool find = trie.search(curr, ans);
-                if (find){
-                    res.append(ans);
-                }
-                else res.append(curr);
-                res.push_back(' ');
-            }
+        stringstream ss(sen);
+
+        while (ss >> word){
+            string root = "";
+            bool find = trie.search(word, root);
+            if (find) res += root + ' ';
+            else res += word + ' ';
         }
-
+        
         res.pop_back();
         return res;
     }
