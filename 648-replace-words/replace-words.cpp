@@ -31,14 +31,13 @@ class Trie{
 
     bool search(string word, string& ans){
         TrieNode* curr = root;
-        int length = 0;
-        int mini = length;
+
         for (char c: word){
             int idx = c-'a';
             if (curr->children[idx]==nullptr) break;
-            if (curr->end) return true;
-            ans.push_back(c);
             curr=curr->children[idx];
+            ans.push_back(c);
+            if (curr->end) return true;
         }
         return curr->end;
     }
@@ -58,12 +57,10 @@ public:
         while (right<n){
             right++;
             if (sen[right]==' ') {
-                int temp = left;
-                string curr = "";
-                while (left<right){
-                    curr.push_back(sen[left]);
-                    left++;
-                }
+            
+                string curr = sen.substr(left, right-left);
+                right++;
+                left = right;
 
                 string ans = "";
                 bool find = trie.search(curr, ans);
@@ -72,8 +69,6 @@ public:
                 }
                 else res.append(curr);
                 res.push_back(' ');
-                left++;
-                right++;
             }
         }
 
