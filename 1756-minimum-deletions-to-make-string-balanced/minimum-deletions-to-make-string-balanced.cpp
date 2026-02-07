@@ -2,15 +2,15 @@ class Solution {
 public:
     int minimumDeletions(string s) {
         stack<char> st;
-        int count=0;
-        for (char i:s){
-            if (i=='b') st.push(i);
-            else if (!st.empty() && i=='a') {
+        int ans = 0;
+
+        for (char c: s){
+            if (c=='b') st.push(c);
+            else if(c=='a' && !st.empty()){
                 st.pop();
-                count++;
+                ans++;
             }
         }
-        return count;
-        
+        return ans;
     }
 };
