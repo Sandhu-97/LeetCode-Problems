@@ -1,26 +1,32 @@
 class Solution {
 public:
-    int count = 0;
-    vector<bool> visited;
-    void dfs(int node, vector<vector<int>>& mat){
+    queue<int> q;
+    void bfs(int node, vector<vector<int>>& mat, vector<bool>& visited){
+        q.push(node);
         visited[node] = true;
-        
-        for (int v=0;v<mat.size();v++){
-            if (!visited[v] && mat[node][v]==1) dfs(v, mat);
-        }
+
+        while (!q.empty()){
+            int front = q.front();
+            q.pop();
+
+            for (int v=0;v<mat.size();v++){
+                if(mat[front][v]==1 && !visited[v]){
+                    visited[v] = true;
+                    q.push(v);
+                }
+            }
+        } 
     }
-    int findCircleNum(vector<vector<int>>& isConnected) {
-        int v = isConnected.size();
-        visited.assign(v, false);
-        
-        for (int i=0;i<v;i++){
-            if (!visited[i]){
-                dfs(i, isConnected);
+    int findCircleNum(vector<vector<int>>& mat) {
+        int v = mat.size();
+        vector<bool> vis(v, false);
+        int count=0;
+        for(int i=0;i<mat.size();i++){
+            if (!vis[i]){
+                bfs(i, mat, vis);
                 count++;
             }
         }
-
         return count;
-
     }
 };
