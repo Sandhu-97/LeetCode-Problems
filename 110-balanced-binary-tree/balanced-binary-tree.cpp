@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    
+
     int solve(TreeNode* root, bool& result){
         if (!root) return 0;
 
@@ -19,11 +19,11 @@ public:
         int right = solve(root->right, result);
 
         if (abs(left-right)>1){
-            result=false;
+            result = false;
             return 0;
         }
+        return 1+max(left,right);
 
-        return 1 + max(left, right);
     }
     bool isBalanced(TreeNode* root) {
         bool result = true;
