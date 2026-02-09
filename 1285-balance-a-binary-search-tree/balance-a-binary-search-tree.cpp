@@ -11,16 +11,18 @@
  */
 class Solution {
 public:
-    void inorder(TreeNode* root, vector<int>& ans){
+
+    void inorder(TreeNode* root, vector<int>& vals){
         if (!root) return;
-        inorder(root->left, ans);
-        ans.push_back(root->val);
-        inorder(root->right, ans);
+        inorder(root->left,vals);
+        vals.push_back(root->val);
+        inorder(root->right, vals);
     }
-    TreeNode* solve(const vector<int>& nums, int l, int r){
+
+    TreeNode* solve(vector<int>& vals, int l, int r){
         if (l>r) return nullptr;
-        int mid = l+(r-l)/2;
-        return new TreeNode(nums[mid], solve(nums, l, mid-1), solve(nums, mid+1, r));
+        int mid = (l+r) >> 1;
+        return new TreeNode(vals[mid], solve(vals, l, mid-1), solve(vals, mid+1, r));
     }
     TreeNode* balanceBST(TreeNode* root) {
         vector<int> ans;
