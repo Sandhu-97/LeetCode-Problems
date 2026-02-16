@@ -11,17 +11,20 @@
  */
 class Solution {
 public:
-    vector<int> ans;
-    void dfs(TreeNode* root, int level){
-        if (!root) return;
-
-        if (ans.size()==level) ans.push_back(root->val);
-
-        dfs(root->right, level+1);
-        dfs(root->left, level+1);
-    }
     vector<int> rightSideView(TreeNode* root) {
-        dfs(root, 0);
+        queue<TreeNode*> q;
+        if (!root) return {};
+        q.push(root);
+        vector<int> ans;
+        while (!q.empty()){
+            int size = q.size();
+            for (int i=0;i<size;i++){
+                auto front = q.front(); q.pop();
+                if (front->left) q.push(front->left);
+                if (front->right) q.push(front->right);
+                if (i==size-1) ans.push_back(front->val);
+            }
+        }
         return ans;
     }
 };
