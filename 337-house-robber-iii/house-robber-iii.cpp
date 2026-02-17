@@ -11,19 +11,19 @@
  */
 class Solution {
 public:
-
-    vector<int> solve(TreeNode* root){
+    typedef pair<int,int> p;
+    p solve(TreeNode* root){
         if (!root) return {0, 0};
-        auto left = solve(root->left);
-        auto right = solve(root->right);
+        p left = solve(root->left);
+        p right = solve(root->right);
 
-        int skip = max(left[0], left[1]) + max(right[0], right[1]);
-        int rob = root->val + left[0] + right[0];
+        int skip = max(left.first, left.second) + max(right.first, right.second);
+        int rob = root->val + left.first + right.first;
 
         return {skip, rob};
     }
     int rob(TreeNode* root) {
         auto ans = solve(root);
-        return max(ans[0], ans[1]);
+        return max(ans.first, ans.second);
     }
 };
