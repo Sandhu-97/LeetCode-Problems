@@ -11,20 +11,21 @@
  */
 class Solution {
 public:
-    int findBottomLeftValue(TreeNode* root) {
-        queue<TreeNode*> q;
-        q.push(root);
-        int ans = 0;
-        while (!q.empty()){
-            int size = q.size();
-            int check = size-1;
-            while (size--){
-                auto front = q.front(); q.pop();
-                if (check==size) ans = front->val;
-                if (front->left) q.push(front->left);
-                if (front->right) q.push(front->right);
-            }
+    int max_depth, ans;
+    void solve(TreeNode* root, int depth){
+        if (!root) return;
+
+        if (depth>max_depth){
+            max_depth = depth;
+            ans = root->val;
         }
+
+        solve(root->left, depth+1);
+        solve(root->right, depth+1);
+    }
+    int findBottomLeftValue(TreeNode* root) {
+        max_depth = -1, ans =0;
+        solve(root, 0);
         return ans;
     }
 };
