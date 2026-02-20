@@ -8,7 +8,7 @@ public:
 
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
         n = grid.size();
-        if (grid[0][0]!=0) return -1;
+        if (grid[0][0]!=0 || grid[n-1][n-1]!=0) return -1;
 
         queue<pair<int, int>> q;
         q.push({0,0});
@@ -18,7 +18,7 @@ public:
             {1, 0}, {-1, 0}, {0, 1}, {0, -1},
             {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
         };
-        
+
         int ans = 1;
         while (!q.empty()){
             int size=q.size();
