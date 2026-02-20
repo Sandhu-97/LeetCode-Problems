@@ -1,20 +1,14 @@
 class Solution {
 public:
-    int n;
-    bool valid (int i, int j, vector<vector<int>>& grid){
-        if (i<0 || j<0 || i>= n || j>=n || grid[i][j]!=0) return false;
-        return true;
-    }
-
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
-        n = grid.size();
+        int n = grid.size();
         if (grid[0][0]!=0 || grid[n-1][n-1]!=0) return -1;
 
         queue<pair<int, int>> q;
         q.push({0,0});
         grid[0][0] = 1;
 
-        vector<vector<int>> dir = {
+        int dir[8][2] = {
             {1, 0}, {-1, 0}, {0, 1}, {0, -1},
             {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
         };
@@ -30,7 +24,7 @@ public:
                 for (auto d: dir){
                     int nrow = r+d[0];
                     int ncol = c+d[1];
-                    if (valid(nrow, ncol, grid)){
+                    if (nrow>=0 && ncol>=0 && nrow<n && ncol<n && grid[nrow][ncol]==0){
                         grid[nrow][ncol] = 1;
                         q.push({nrow, ncol});
                     }
