@@ -3,38 +3,33 @@ public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
         vector<vector<vector<int>>> adj(n+1);
         for (auto time: times){
-            int u = time[0];
-            int v = time[1];
-            int w = time[2];
+            int u = time[0], v = time[1], w = time[2];
             adj[u].push_back({v, w});
         }
 
-
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
         pq.push({0, k});
-        vector<int> dist(n+1, INT_MAX);
-        dist[k]=0;
+        vector<int> ans(n, INT_MAX);
+        ans[k-1] = 0;
 
         while (!pq.empty()){
-            auto top = pq.top();
-            int u = top.second;
-            int d = top.first;
-            pq.pop();
-
-            for (auto vec: adj[u]){
-                int v = vec[0];
-                int w = vec[1];
-
-                if (dist[v]>w+d) {
-                    dist[v] = w+d;
-                    pq.push({dist[v], v});
+            auto [dist, node] = pq.top(); pq.pop();
+            if (dist>ans[node-1]) continue;
+            for (auto neighbor: adj[node]){
+                int w = neighbor[1];
+                int v = neighbor[0];
+                if (dist+w<ans[v-1]){
+                    ans[v-1] = dist+w;
+                    pq.push({dist+w, v});
                 }
             }
         }
-
-        int maxi = INT_MIN;
-        for (int i=1;i<=n;i++) maxi=max(maxi, dist[i]);
-        return maxi==INT_MAX? -1 : maxi;
-
+        int res = -1;
+        for (int i: ans) {
+            res = max(res, i);
+            if (i==INT_MAX) return -1;
+        }
+        return res;
+        
     }
 };
