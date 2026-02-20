@@ -11,12 +11,10 @@ public:
         if (grid[0][0]!=0) return -1;
         queue<pair<int, int>> q;
         q.push({0,0});
-        vector<vector<bool>> visited(n, vector<bool>(n, false));
         vector<vector<int>> dir = {
             {1, 0}, {-1, 0}, {0, 1}, {0, -1},
             {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
         };
-        visited[0][0] = true;
         int ans = 1;
         while (!q.empty()){
             int size=q.size();
@@ -29,8 +27,7 @@ public:
                     int nrow = r+d[0];
                     int ncol = c+d[1];
                     if (valid(nrow, ncol, grid)){
-                        if (visited[nrow][ncol]) continue;
-                        visited[nrow][ncol] = true;
+                        grid[nrow][ncol] = 1;
                         q.push({nrow, ncol});
                     }
                 }
