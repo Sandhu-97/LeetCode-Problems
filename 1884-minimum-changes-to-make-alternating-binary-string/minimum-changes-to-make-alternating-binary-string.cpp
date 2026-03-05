@@ -1,31 +1,16 @@
 class Solution {
 public:
     int minOperations(string s) {
-        int count=0;
-        int n = s.size();
-        string str1, str2;
-        bool alternator=true;
-        for (int i=0;i<n;i++){
-            if (alternator){
-                str1.push_back('0');
-                str2.push_back('1');
-            }
-            else {
-                str1.push_back('1');
-                str2.push_back('0');
-            }
+        int count1 =0, count2=0;
 
-            alternator=!alternator;
+        for (int i=0;i<s.size();i++){
+            char opt1 = (i%2==0)?'0':'1';
+            char opt2 = (i%2==0)?'1':'0';
+            
+            if (s[i]!=opt1) count1++;
+            if (s[i]!=opt2) count2++;
         }
 
-        cout << str1 << " " << str2 << endl;
-        
-        int temp1=0, temp2=0;
-        for (int i=0;i<n;i++){
-            if (s[i]!=str1[i]) temp1++;
-            if (s[i]!=str2[i]) temp2++;
-        }
-        count=min(temp1, temp2);
-        return count;
+        return min(count1, count2);
     }
 };
