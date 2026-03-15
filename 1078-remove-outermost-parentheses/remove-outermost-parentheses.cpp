@@ -1,25 +1,22 @@
 class Solution {
 public:
     string removeOuterParentheses(string s) {
-        // Stack Based Approach, String based is better
+        string ans = "";
+        int level = 0;
 
-        stack<char> st;
-        string res;
         for (char c: s){
             if (c=='('){
-                if (!st.empty()){
-                    res+=c;
-                }
-                st.push(c);
-            }
-            else{
-                st.pop();
-                if (!st.empty()){
-                    res+=c;
-                }
+                level++;
+                if (level<=1) continue;
+                ans.push_back(c);
             }
 
+            else{
+                level--;
+                if (level<=0) continue; 
+                ans.push_back(c);
+            }
         }
-        return res;
+        return ans;
     }
 };
