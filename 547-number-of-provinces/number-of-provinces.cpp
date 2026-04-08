@@ -1,61 +1,48 @@
-class UF{
-    public:
-    vector<int> parent, rank;
-
-    UF(int n){
-        parent.resize(n);
-        rank.assign(n ,0);
-        for (int i=0;i<n;i++){
-            parent[i] = i;
-        }
-    }
-
-    int find (int n){
-        if (parent[n]!=n) {
-            return parent[n]=find(parent[n]);
-        }
-        return parent[n];
-    }
-
-    void unite(int a, int b){
-        int pa = find(a);
-        int pb = find(b);
-
-        if (pa==pb) return;
-
-        if (rank[pa]>rank[pb]){
-            parent[pb] = pa;
-        }
-        else if (rank[pa]<rank[pb]){
-            parent[pa] = pb;
-        }
-        else{
-            parent[pb] = pa;
-             rank[pa]++;
-        }
-    }
-    int ans(int n){
-        int count=0;
-        for (int i=0;i<n;i++){
-            if (parent[i]==i) count++;
-        }
-        return count;
-    }
-};
-
 class Solution {
 public:
-    int findCircleNum(vector<vector<int>>& conn) {
-        int n = conn.size();
-        UF uf(n);
+    vector<int> parent;
+    vector<int> rank;
+    void unite(int a, int b){
+        int parent_a = find(a), parent_b=  find(b);
+
+        if (parent_a==parent_b) return;
+
+        if (rank[parent_a]>rank[parent_b]){
+            parent[parent_b] = parent_a;
+        } 
+        else if (rank[parent_b]>rank[parent_a]){
+            parent[parent_a] = parent_b;
+        }
+        else {
+            parent[parent_b] = parent_a;
+            rank[parent_a]++;
+        }
+    }
+
+    int find (int a){
+        if (parent[a]==a) return a;
+        return parent[a] = find(parent[a]);
+    }
+
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n= isConnected.size();
+        parent.resize(n);
+        rank.resize(n);
+        for (int i=0;i<n;i++){
+            parent[i]=i;
+            rank[i]=0;
+        }
 
         for (int i=0;i<n;i++){
-            for (int j=i+1;j<n;j++){
-                if (conn[i][j]==1) uf.unite(i, j);
+            for (int j=0;j<n;j++){
+                if (isConnected[i][j]) unite(i, j);
             }
         }
 
-        return uf.ans(n);
-
+        int ans = 0;
+        for (int i=0;i<n;i++){
+            if (parent[i]==i) ans++;
+        }
+        return ans;
     }
 };
