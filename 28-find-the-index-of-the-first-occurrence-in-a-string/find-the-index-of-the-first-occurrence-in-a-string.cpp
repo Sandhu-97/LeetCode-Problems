@@ -4,9 +4,9 @@ public:
         int n1=haystack.size(), n2=needle.size();
         int i=0;
 
-        if (n2>n1) return -1;
+        if (n2==0) return 0;
         
-        for (;i<n1;i++){
+        for (;i<=n1-n2;i++){
             int j=0;
             while (i+j<n1 && j<n2 && haystack[i+j]==needle[j]){
                 j++;
