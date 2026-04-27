@@ -26,6 +26,8 @@ public:
             if (l1) l1=l1->next;
             if (l2) l2=l2->next;
         }
-        return dummy->next;
+        ListNode* head=dummy->next;
+        delete dummy;
+        return head;
     }
 };
