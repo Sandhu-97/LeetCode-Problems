@@ -8,7 +8,7 @@ public:
         int csts=0;
         int vows=0;
         for (char c: word){
-            if (!isdigit(c) && !isalpha(c)) return false;
+            if (!isalnum(c)) return false;
             else if (isalpha(c)){
                 if (is_vowel(c)) vows++;
                 else csts++;
