@@ -9,39 +9,28 @@
  * };
  */
 
-class compare{
-    public:
+struct comp{
     bool operator()(ListNode* a, ListNode* b){
-        return a->val > b->val;
+        return a->val>b->val;
     }
 };
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        priority_queue<ListNode*, vector<ListNode*>, compare> pq;
-        
+        priority_queue<ListNode*, vector<ListNode*>, comp> pq;
         for (auto node: lists){
-            if (node){
-                pq.push(node);
-            }
+            if (node) pq.push(node);
         }
 
-        ListNode* head= new ListNode(0);
-        ListNode* curr = head;
-
+        ListNode* dummy = new ListNode(-1);
+        ListNode* curr=dummy;
         while (!pq.empty()){
             auto node = pq.top(); pq.pop();
-            curr->next = node;
-            curr=curr->next;
-
+            curr->next=node;
             if (node && node->next) pq.push(node->next);
+            node->next=nullptr;
+            curr=curr->next;
         }
-
-        return head->next;
-
-
-
-
-        
+        return dummy->next;
     }
 };
