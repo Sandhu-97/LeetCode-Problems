@@ -1,29 +1,30 @@
 class Solution {
 public:
     vector<vector<int>> ans;
-    vector<int> temp;
-    vector<bool> used;
-    void solve(vector<int>& nums){
-        if (nums.size()==temp.size()){
-            ans.push_back(temp);
+    vector<int> curr;
+    int n;
+    unordered_map<int, int> mp;
+    void solve(){
+        if (curr.size()==n){
+            ans.push_back(curr);
             return;
-        }
+        } 
 
-        for (int i=0;i<nums.size();i++){
-            if (used[i]) continue;
-            if (i>0 && nums[i]==nums[i-1] && !used[i-1]) continue;
-
-            used[i] = true;
-            temp.push_back(nums[i]);
-            solve(nums);
-            temp.pop_back();
-            used[i] = false;
+        for (auto it: mp){
+            int num = it.first;
+            int count=it.second;
+            if (count==0) continue;
+            curr.push_back(num);
+            mp[num]--;
+            solve();
+            curr.pop_back();
+            mp[num]++;
         }
     }
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        used.assign(nums.size(), false);
-        solve(nums);
+        n=nums.size();
+        for (int i: nums) mp[i]++;
+        solve();
         return ans;
     }
 };
