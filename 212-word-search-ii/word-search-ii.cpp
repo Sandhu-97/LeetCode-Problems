@@ -1,32 +1,32 @@
 class TrieNode{
     public:
+    vector<TrieNode*> children;
     bool end;
-    TrieNode* children[26];
+    string word;
     TrieNode(){
+        children.assign(26, nullptr);
         end=false;
-        for (auto& child : children) child = nullptr;
     }
-
 };
 
 class Trie{
     public:
     TrieNode* root;
-
+    
     Trie(){
-        root = new TrieNode();
+        root=new TrieNode();
     }
-
     void insert(string word){
-        TrieNode* curr = root;
+        TrieNode* curr=root;
         for (char c: word){
-            int val=c-'a';
-            if (curr->children[val]==nullptr){
-                curr->children[val] = new TrieNode();
+            int idx=c-'a';
+            if (!curr->children[idx]){
+                curr->children[idx]=new TrieNode();
             }
-            curr = curr->children[val];
+            curr=curr->children[idx];
         }
-        curr->end = true;
+        curr->end=true;
+        curr->word=word;
     }
 };
 
@@ -35,44 +35,46 @@ public:
     int m,n;
     vector<string> ans;
     Trie trie;
-    string s;
-
-    void solve(int i, int j, TrieNode* node , vector<vector<char>>& board){
+    void solve(int i, int j, TrieNode* curr, vector<vector<char>>& board){
         if (i<0 || j<0 || i>=m || j>=n || board[i][j]=='.') return;
+        char temp=board[i][j];
+        int idx=temp-'a';
+        if (!curr->children[idx]) return;
 
-        char curr = board[i][j];
-        int val = curr-'a';
+        curr=curr->children[idx];
 
-        if (!node->children[val]) return;
-        node = node->children[val];
-        s.push_back(curr);
-
-        if (node->end){
-            ans.push_back(s);
-            node->end = false;
+        if (curr->end) {
+            ans.push_back(curr->word);
+            curr->end=false;
         }
 
-        board[i][j] = '.';
+        board[i][j]='.';
+        solve(i+1, j, curr, board);
+        solve(i-1, j, curr, board);
+        solve(i, j+1, curr, board);
+        solve(i, j-1, curr, board);
+        board[i][j]=temp;
 
-        solve(i+1, j, node, board);
-        solve(i-1, j, node, board);
-        solve(i, j+1, node, board);
-        solve(i, j-1, node, board);
-        s.pop_back();
-        board[i][j] = curr;
+
+
+
     }
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
         m=board.size();
         n=board[0].size();
+
         for (string word: words){
             trie.insert(word);
         }
-        string s="";
+
         for (int i=0;i<m;i++){
             for (int j=0;j<n;j++){
                 solve(i, j, trie.root, board);
             }
         }
+
         return ans;
+
+
     }
 };
