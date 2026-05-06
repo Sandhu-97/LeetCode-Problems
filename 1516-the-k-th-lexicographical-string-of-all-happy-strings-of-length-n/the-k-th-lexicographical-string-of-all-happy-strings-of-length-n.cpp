@@ -3,26 +3,25 @@ public:
     vector<string> all;
     string curr;
     void generate(int n){
-        if (n==0){
+        if (curr.size()>=n) {
             all.push_back(curr);
             return;
         }
 
-        for (char ch='a';ch<='c';ch++){
-            if (curr.empty() || curr.back()!=ch) {
-                curr.push_back(ch);
-                generate(n-1);
-                curr.pop_back();
+        for (char c='a';c<='c';c++){
+            if (curr.empty() || curr.back()!=c) {
+
+            curr.push_back(c);
+            generate(n);
+            curr.pop_back();
             }
         }
     }
     string getHappyString(int n, int k) {
-
         generate(n);
-        for (string i: all) {
-            cout << i << endl;
-        }
         if (k>all.size()) return "";
         return all[k-1];
+        return "";
+
     }
 };
