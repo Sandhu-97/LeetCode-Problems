@@ -1,7 +1,7 @@
 class Solution {
 public:
 
-    bool solve(int idx, int i, int j, vector<vector<char>>& board, string word){
+    bool solve(int idx, int i, int j, vector<vector<char>>& board, string& word){
         if (idx>=word.size()) return true;
         if (i<0 || j<0 || i>=board.size() || j>=board[0].size()||board[i][j]=='.') return false;
 
