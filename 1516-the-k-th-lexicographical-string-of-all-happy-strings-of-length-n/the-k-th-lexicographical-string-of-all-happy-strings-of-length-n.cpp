@@ -4,6 +4,7 @@ public:
     string curr;
     string result="";;
     int count=0;
+    
     void generate(int n, int k){
         if (curr.size()>=n) {
             count++;
@@ -16,10 +17,9 @@ public:
 
             if (result!="") return;
             if (curr.empty() || curr.back()!=c) {
-
-            curr.push_back(c);
-            generate(n, k);
-            curr.pop_back();
+                curr.push_back(c);
+                generate(n, k);
+                curr.pop_back();
             }
         }
     }
