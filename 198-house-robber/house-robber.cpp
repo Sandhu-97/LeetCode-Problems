@@ -1,21 +1,21 @@
 class Solution {
 public:
     vector<int> dp;
-    int n;
-    int solve (int i, vector<int>& nums){
-        if (i>=n) return 0;
-
-        if (dp[i]!=-1) return dp[i];
-        int rob=nums[i]+solve(i+2, nums);
-        int leave=solve(i+1, nums);
-
-        return dp[i]=max(rob, leave);
-            
-        
-    }
     int rob(vector<int>& nums) {
-        n=nums.size();
-        dp.assign(n, -1);
-        return solve(0, nums);
+        int n = nums.size();
+        dp.assign(n, 0);
+
+        if (n==1){
+            return nums[0];
+        }
+
+        if (n==2) return max(nums[0], nums[1]);
+        dp[0] = nums[0];
+        dp[1] = max(nums[0], nums[1]);
+
+        for (int i=2;i<n;i++){
+            dp[i]=max(nums[i]+dp[i-2], dp[i-1]);
+        }
+        return dp[n-1];
     }
 };
