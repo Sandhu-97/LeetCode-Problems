@@ -1,39 +1,28 @@
 class Solution {
 public:
-
     vector<int> parent;
     vector<int> rank;
-
-    int find(int a){
-        if (a==parent[a]) return a;
-        return a = find(parent[a]);
+    int find(int x){
+        if (parent[x]!=x) parent[x]=find(parent[x]);
+        return parent[x];
     }
 
-    void unite (int a, int b){
-        int pa = find(a);
-        int pb = find(b);
-        if (pa==pb) return;
+    void unite(int a, int b){
+        int para=find(a);
+        int parb=find(b);
+        if (para==parb) return;
 
-        if (rank[pa]>rank[pb]){
-            parent[pb] = pa;
-        }
-
-        else if (rank[pb]>rank[pa]){
-            parent[pa] = pb;
-        }
-
+        if (rank[para]>rank[parb]) parent[parb]=para;
+        else if (rank[para]<rank[parb]) parent[para]=parb;
         else {
-            parent[pb]=pa;
-            rank[pa]++;
+            parent[para]=parb;
+            rank[parb]++;
         }
     }
-
     int makeConnected(int n, vector<vector<int>>& connections) {
         if (connections.size()<n-1) return -1;
-
         parent.resize(n);
         rank.resize(n, 0);
-
         for (int i=0;i<n;i++) parent[i]=i;
 
         for (auto conn: connections){
@@ -42,9 +31,8 @@ public:
 
         int count=0;
         for (int i=0;i<n;i++){
-            if (parent[i]==i) count++;
+            if (i==parent[i]) count++;
         }
-
         return count-1;
     }
 };
