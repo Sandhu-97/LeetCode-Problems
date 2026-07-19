@@ -2,44 +2,34 @@ class Solution {
 public:
     vector<int> parent;
     vector<int> rank;
+    int find(int x){
+        if (parent[x]==x) return x;
+        return parent[x]=find(parent[x]);
+    }
+
     void unite(int a, int b){
-        int parent_a = find(a), parent_b=  find(b);
-
-        if (parent_a==parent_b) return;
-
-        if (rank[parent_a]>rank[parent_b]){
-            parent[parent_b] = parent_a;
-        } 
-        else if (rank[parent_b]>rank[parent_a]){
-            parent[parent_a] = parent_b;
-        }
-        else {
-            parent[parent_b] = parent_a;
-            rank[parent_a]++;
+        int pa=find(a), pb = find(b);
+        if (pa==pb) return;
+        if (rank[pa]>rank[pb]) parent[pb]=pa;
+        else if (rank[pb]>rank[pa]) parent[pa]=pb;
+        else{
+            parent[pb]=pa;
+            rank[pa]++;
         }
     }
-
-    int find (int a){
-        if (parent[a]==a) return a;
-        return parent[a] = find(parent[a]);
-    }
-
     int findCircleNum(vector<vector<int>>& isConnected) {
-        int n= isConnected.size();
+        int n = isConnected.size();
+        rank.resize(n, 0);
         parent.resize(n);
-        rank.resize(n);
-        for (int i=0;i<n;i++){
-            parent[i]=i;
-            rank[i]=0;
-        }
+        for (int i=0;i<n;i++) parent[i]=i;
 
         for (int i=0;i<n;i++){
             for (int j=0;j<n;j++){
-                if (isConnected[i][j]) unite(i, j);
+                if (isConnected[i][j]==1) unite(i, j);
             }
         }
 
-        int ans = 0;
+        int ans=0;
         for (int i=0;i<n;i++){
             if (parent[i]==i) ans++;
         }
