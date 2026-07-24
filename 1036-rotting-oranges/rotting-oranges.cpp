@@ -1,55 +1,46 @@
 class Solution {
 public:
-
-    int rows, cols;
-
-    bool isSafe(int row, int col, vector<vector<int>>& grid){
-        return row>=0 && col>=0 && row<rows && col<cols && grid[row][col]==1;
-    }
     int orangesRotting(vector<vector<int>>& grid) {
-        rows = grid.size();
-        cols = grid[0].size();
+        queue<pair<int, int>> rotten;
+        int fresh=0, time=0;
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<int> dx = {0,0,1,-1};
+        vector<int> dy = {1,-1,0,0};
+        for (int i=0;i<m;i++){
+            for (int j=0;j<n;j++){
+                switch (grid[i][j]) {
+                    case 1:
+                    fresh++;
+                    break;
+                    
+                    case 2:
+                    rotten.push({i,j});
+                    break;
 
-        queue<pair<int, int>> q;
-        int fresh=0;
-
-        for (int i=0;i<rows;i++){
-            for (int j=0;j<cols;j++) {
-                if (grid[i][j] == 2) q.push({i, j});
-                else if (grid[i][j]==1) fresh++;
+                    default:
+                    break;
+                }
             }
         }
 
-        int minutes = 0;
+        while (!rotten.empty()){
+            int size = rotten.size();
+            while (size--){
+                auto [i,j] = rotten.front(); rotten.pop();
+                for (int k=0;k<4;k++){
+                    int nr = i+dx[k];
+                    int nc = j+dy[k];
 
-
-        int dx[] = {1, -1, 0, 0};
-        int dy[] = {0, 0, 1, -1};
-        while (!q.empty()){
-            int size = q.size();
-            for (int i=0;i<size;i++){
-                auto rotten = q.front();
-                int row = rotten.first;
-                int col = rotten.second;
-
-                q.pop();
-
-                for (int i=0;i<4;i++){
-                    int new_row = row+dx[i];
-                    int new_col = col+dy[i];
-
-                    if (isSafe(new_row, new_col, grid)){
-                        q.push({new_row, new_col});
-                        grid[new_row][new_col] = 2;
+                    if (nr>=0 && nc >= 0 && nr<m && nc< n && grid[nr][nc]==1){
+                        grid[nr][nc]=2;
                         fresh--;
+                        rotten.push({nr, nc});
                     }
                 }
             }
-
-            if (!q.empty()) minutes++;
-
+            if (!rotten.empty()) time++;
         }
-
-        return fresh==0? minutes: -1;
+        return fresh==0?time:-1;
     }
 };
