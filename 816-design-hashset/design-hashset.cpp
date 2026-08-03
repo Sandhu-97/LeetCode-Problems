@@ -1,21 +1,39 @@
 class MyHashSet {
 public:
-    vector<bool> hashSet;
+    const static int size=1000;
+    vector<list<int>> table;
+    int hash(int key){
+        return key%size;
+    }
     MyHashSet() {
-        // arr = new bool[1000000];
-        hashSet = vector<bool>(1000001, false);
+        table.resize(size);
     }
     
     void add(int key) {
-        hashSet[key] = true;
+        int h = hash(key);
+        auto& bucket = table[h];
+        for (int node: bucket) if (node==key) return;
+        bucket.push_back(key);
     }
     
     void remove(int key) {
-        hashSet[key] = false;
+        int h = hash(key);
+        auto& bucket = table[h];
+        for (auto it=bucket.begin(); it!=bucket.end(); it++){
+            if (*it==key ) {
+                bucket.erase(it);
+                return;
+            }
+        }
     }
     
     bool contains(int key) {
-        return hashSet[key];
+        int h = hash(key);
+        auto& bucket = table[h];
+        for (int node: bucket){
+            if (node==key) return true;
+        }
+        return false;
     }
 };
 
