@@ -1,57 +1,43 @@
-class Node{
-    public:
-    int key, val;
-    Node* next;
-    Node(int k, int v, Node* n){
-        key=k;
-        val=v;
-        next=n;
-    }
-};
-
 class MyHashMap {
-public:
-    const static int size = 19997;
-    const static int mult = 12582917;
-    Node* data[size] = {};
+private:
+    const static int SIZE = 1000;
+    vector<list<pair<int, int>>> table;
     int hash(int key){
-        return (int) ((long)mult*key%size);
+        return key%SIZE;
     }
+public:
     MyHashMap() {
-        
+        table.resize(SIZE);
     }
     
     void put(int key, int value) {
-        remove(key);
         int h = hash(key);
-        Node* node = new Node(key, value, data[h]);
-        data[h]=node;
+        for (auto& node: table[h]){
+            if (node.first==key){
+                node.second=value;
+                return;
+            }
+        }
+        table[h].push_back({key, value});
     }
     
     int get(int key) {
         int h = hash(key);
-        Node* node = data[h];
-        for (; node; node=node->next){
-            if (node->key==key) return node->val;
+        for (auto node: table[h]){
+            if (node.first==key){
+                return node.second;
+            }
         }
         return -1;
     }
     
     void remove(int key) {
         int h = hash(key);
-        Node* node = data[h];
-
-        if (node==nullptr) return;
-        else if (node->key==key){
-            data[h]=node->next;
-            delete node;
-        }
-        else for (; node->next; node=node->next){
-            if (node->next->key==key){
-                Node* temp = node->next;
-                node->next=temp->next;
-                delete temp;
-                return;
+        auto& bucket = table[h];
+        for (auto it=bucket.begin();it!=bucket.end();it++){
+            if (it->first==key){
+                bucket.erase(it);
+                return ;
             }
         }
     }
