@@ -1,20 +1,26 @@
 class Solution {
 public:
-    int old_color, new_color, m, n;
-    void solve(int i, int j, vector<vector<int>>& image){
-        if (i<0 || j<0 || i>=m || j>=n || image[i][j]!=old_color) return;
-        image[i][j]=new_color;
-        solve(i+1, j, image);
-        solve(i-1, j, image);
-        solve(i, j+1, image);
-        solve(i, j-1, image);
-    }
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
-        m=image.size(), n=image[0].size();
-        old_color = image[sr][sc];
-        new_color = color;
-        if (old_color==new_color) return image;
-        solve(sr,sc,image);
+        if (image[sr][sc]==color) return image;
+        int source = image[sr][sc];
+        queue<pair<int,int>> q;
+        q.push({sr, sc});
+
+        int m = image.size();
+        int n = image[0].size();
+
+        vector<int> dx = {1,-1,0,0};
+        vector<int> dy = {0,0,-1,1};
+        while (!q.empty()){
+            auto [i,j] = q.front(); q.pop();
+            image[i][j] = color;
+            for (int k=0;k<4;k++){
+                int nr = i+dx[k];
+                int nc = j+dy[k];
+                if (nr<0 || nc <0 || nr>=m || nc >= n || image[nr][nc]!=source) continue;
+                if (image[nr][nc]==source) q.push({nr, nc});
+            }
+        }
         return image;
     }
 };
