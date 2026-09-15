@@ -1,33 +1,32 @@
 class Solution {
 public:
+    vector<int> visited;
 
-    bool isCycleDFS(int u, vector<vector<int>>& adj, vector<bool>& visited, vector<bool>& stack){
-        visited[u] = true;
-        stack[u] = true;
-
-        for (auto v: adj[u]){
-            if (!visited[v] && isCycleDFS(v, adj, visited, stack)) return true;
-            else if (stack[v]) return true;
+    bool cycle(int i, int parent, vector<vector<int>>& adj){
+        visited[i]=1;
+        for (auto neigh: adj[i]){
+            if (visited[neigh]==1) return true;
+            else if (visited[neigh]==0){
+                if (cycle(neigh, i, adj)) return true;
+            }
         }
-        stack[u] = false;
+        visited[i]=2;
         return false;
     }
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         vector<vector<int>> adj(numCourses);
-        vector<bool> visited(numCourses);
-        vector<bool> stack(numCourses);
-
-
         for (auto edge: prerequisites){
-            adj[edge[1]].push_back(edge[0]);
+            adj[edge[0]].push_back(edge[1]);
         }
+        visited.resize(numCourses,0);
 
         for (int i=0;i<numCourses;i++){
-            if (!visited[i]){
-                if (isCycleDFS(i, adj, visited, stack)) return false;
+            if (visited[i]==0){
+                if (cycle(i, -1, adj)) return false;
             }
         }
         return true;
-        
+
+
     }
 };
