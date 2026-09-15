@@ -1,40 +1,33 @@
 class Solution {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
-        int rows = mat.size();
-        int cols = mat[0].size();
+        int m = mat.size();
+        int n= mat[0].size();
         queue<pair<int,int>> q;
-        vector<vector<bool>> visited(rows, vector<bool>(cols, false));
+        vector<vector<int>> dist(m, vector<int>(n, -1));
 
-        for(int i=0;i<rows;i++){
-            for (int j=0;j<cols;j++){
-                if (mat[i][j]==0) {
-                    q.push({i, j});
-                    visited[i][j]=true;
+        for (int i=0;i<m;i++){
+            for (int j=0;j<n;j++){
+                if (mat[i][j]==0){
+                    q.push({i,j});
+                    dist[i][j]=0;
                 }
             }
         }
-
-        int dx[] = {1,-1,0,0};
-        int dy[] = {0,0,1,-1};
-
+        int dirs[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         while (!q.empty()){
+            auto [r,c] = q.front();q.pop();
 
-            auto front = q.front();
-            q.pop();
-            int row = front.first;
-            int col = front.second;
-            for (int i=0;i<4;i++){
-                int newrow = row+dx[i];
-                int newcol = col+dy[i];
-                if (newrow>=0 && newrow < rows && newcol>=0 && newcol<cols && !visited[newrow][newcol] && mat[newrow][newcol]!=0){
-                    q.push({newrow, newcol});
-                    visited[newrow][newcol] = true;
-                    mat[newrow][newcol] = mat[row][col]+1;
-                }
+            for (auto d: dirs){
+                int nr = r+d[0];
+                int nc = c+d[1];
+
+                if (nr<0 || nc < 0 || nr>=m || nc >=n || dist[nr][nc]!= -1) continue;
+                dist[nr][nc]=dist[r][c]+1;
+                q.push({nr, nc});
             }
             
         }
-        return mat;
+        return dist;
     }
 };
