@@ -5,7 +5,9 @@ public:
         int n = grid[0].size();
 
         queue<pair<int,int>> bfs;
-        vector<vector<int>> dirs = {{1,0}, {-1, 0}, {0, 1}, {0, -1}};
+        vector<int> dirx = {0,0,1,-1};
+        vector<int> diry = {1,-1,0,0};
+
 
         for (int i=0;i<m;i++){
             if (grid[i][0]==1) {
@@ -31,9 +33,9 @@ public:
         while (!bfs.empty()){
             auto [i,j] = bfs.front(); bfs.pop();
 
-            for (auto dir: dirs){
-                int newi = dir[0]+i;
-                int newj = dir[1]+j;
+            for (int d=0;d<4;d++){
+                int newi = dirx[d]+i;
+                int newj = diry[d]+j;
 
                 if (newi<0 || newj<0 || newi>=m || newj >= n || grid[newi][newj]!=1) continue;
                 bfs.push({newi, newj});
@@ -42,7 +44,7 @@ public:
         }
 
         int ans=0;
-        for (auto row: grid){
+        for (const auto& row: grid){
             for (int col: row){
                 if (col==1) ans++;
             }
