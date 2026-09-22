@@ -8,17 +8,29 @@ public:
         vector<vector<int>> dirs = {{1,0}, {-1, 0}, {0, 1}, {0, -1}};
 
         for (int i=0;i<m;i++){
-            if (grid[i][0]==1) bfs.push({i, 0});
-            if (grid[i][n-1]==1) bfs.push({i, n-1});
+            if (grid[i][0]==1) {
+                bfs.push({i, 0});
+                grid[i][0]=2;
+            }
+            if (grid[i][n-1]==1) {
+                bfs.push({i, n-1});
+                grid[i][n-1]=2;
+            }
         }
         for (int j=0;j<n;j++){
-            if (grid[0][j]==1) bfs.push({0, j});
-            if (grid[m-1][j]==1) bfs.push({m-1, j});
+            if (grid[0][j]==1) {
+                bfs.push({0, j});
+                grid[0][j]=2;
+            }
+            if (grid[m-1][j]==1) {
+                bfs.push({m-1, j});
+                grid[m-1][j]=2;
+            }
         }
 
         while (!bfs.empty()){
             auto [i,j] = bfs.front(); bfs.pop();
-            grid[i][j] = 2;
+
             for (auto dir: dirs){
                 int newi = dir[0]+i;
                 int newj = dir[1]+j;
